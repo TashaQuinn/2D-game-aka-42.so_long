@@ -10,10 +10,10 @@ void tiles_delete_and_put_images(t_map *map, xpm_t **xpm, int tile_num, size_t x
 
 void tile_move(t_map *map, int tile_num)
 {
-	if (map->tile_dir[tile_num] == TILE1)
-		map->tile_dir[tile_num] = TILE2;
+	if (map->tile_mov[tile_num] == TILE1)
+		map->tile_mov[tile_num] = TILE2;
 	else
-		map->tile_dir[tile_num] = TILE1;
+		map->tile_mov[tile_num] = TILE1;
 }
 
 void tile_animation(void *map)
@@ -32,7 +32,7 @@ void tile_animation(void *map)
 				if (tile_num % 2 == 0)
 				{
 					tile_move(map, tile_num);
-					tiles_delete_and_put_images(map2, map2->xpm, tile_num, map2->tile.x_tile[tile_num], map2->tile.y_tile[tile_num], map2->tile_dir[tile_num]);
+					tiles_delete_and_put_images(map2, map2->xpm, tile_num, map2->tile.x_tile[tile_num], map2->tile.y_tile[tile_num], map2->tile_mov[tile_num]);
 				}
 			}
 

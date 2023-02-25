@@ -63,6 +63,7 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 		map->star.y_star_start[map->stars] = ((map->star.type[0])[map->stars]->instances[0].y - HALF_BLOCK);
 		map->star.x_star_end[map->stars] = ((map->star.type[0])[map->stars]->instances[0].x + HALF_BLOCK);
 		map->star.y_star_end[map->stars] = ((map->star.type[0])[map->stars]->instances[0].y + HALF_BLOCK);
+		map->star_lit_up[map->stars] = false;
 
 		map->stars++;
     }

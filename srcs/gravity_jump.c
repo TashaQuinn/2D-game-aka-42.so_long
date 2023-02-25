@@ -32,7 +32,7 @@ void gravity(t_map *map, size_t x_char, size_t y_char)
 {
 	jump(map);
 
-	if (map->map[y_char + 1][x_char] != '1' && GRAV == 1)
+	if (map->map[y_char + 1][x_char + 1] != '1' && GRAV == 1)
 		map->img[CHAR]->instances[0].y += 3;
 	else if (mlx_is_key_down(map->mlx, MLX_KEY_W) && GRAV == 1 && map->map[y_char - 1][x_char] != '1' && map->map[y_char + 1][x_char] == '1')
 		map->jump_lock = true;

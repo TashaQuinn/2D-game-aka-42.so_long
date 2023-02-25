@@ -8,7 +8,7 @@ void hook(void *map)
 	size_t y_char = (map2->img[CHAR]->instances[0].y / BLOCK);
 
 	if (((x_char == map2->door.x_door_start && y_char == map2->door.y_door_end)) 
-		&& map2->picked_beans_count == map2->stars) // WTF
+		&& map2->lit_up_stars_count == map2->stars)
 		end_game();
 	else
 	{

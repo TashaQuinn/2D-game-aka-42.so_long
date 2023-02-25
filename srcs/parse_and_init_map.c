@@ -16,7 +16,9 @@ t_map *init_map(char *line)
 	map->height = i;
 	map->mlx = mlx_init(map->width * BLOCK, map->height * BLOCK, "Starry Night", true);
 	map->stars = 0;
+	map->lit_up_stars_count = 0;
 	map->mobs = 0;
+	map->char_dir = CHAR_R_FLY1;
 	map->lives = 3;
 	map->tiles = 0;
 	map->accel = ACCEL;

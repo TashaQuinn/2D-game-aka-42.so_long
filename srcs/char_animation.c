@@ -9,15 +9,15 @@ void char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char, size_t y
 
 void move_char_up(t_map *map)
 {
-	int old_char_dir = map->char_dir; // for correcting the dir while flying
-
-	if (old_char_dir == CHAR_R_FLY1)
+	int current_char_dir = map->char_dir; // for correcting the dir while flying
+	
+	if (current_char_dir == CHAR_R_FLY1)
 		map->char_dir = CHAR_R_FLY2;
-	else if (old_char_dir == CHAR_R_FLY2)
+	else if (current_char_dir == CHAR_R_FLY2)
 		map->char_dir = CHAR_R_FLY1;
-	else if (old_char_dir == CHAR_L_FLY1)
+	else if (current_char_dir == CHAR_L_FLY1)
 		map->char_dir = CHAR_L_FLY2;
-	else if (old_char_dir == CHAR_L_FLY2)
+	else if (current_char_dir == CHAR_L_FLY2)
 		map->char_dir = CHAR_L_FLY1;
 
 	map->img[CHAR]->instances[0].y -= BLOCK / CHAR_SPEED;

@@ -40,13 +40,17 @@ bool load_textures(xpm_t **xpm)
 	if (!xpm[DOOR])
 		return (ft_putendl_fd("moon_door.xpm42 was not found!", STDOUT_FILENO), false);
 
-	xpm[STAR1] = mlx_load_xpm42("textures/bean1.xpm42");
+	xpm[STAR_MARK] = mlx_load_xpm42("textures/star_mark.xpm42");
+	if (!xpm[STAR_MARK])
+		return (ft_putendl_fd("star_mark.xpm42 was not found!", STDOUT_FILENO), false);
+
+	xpm[STAR1] = mlx_load_xpm42("textures/star1.xpm42");
 	if (!xpm[STAR1])
-		return (ft_putendl_fd("bean1.xpm42 was not found!", STDOUT_FILENO), false);
+		return (ft_putendl_fd("star1.xpm42 was not found!", STDOUT_FILENO), false);
 	
-	xpm[STAR2] = mlx_load_xpm42("textures/bean2.xpm42");
+	xpm[STAR2] = mlx_load_xpm42("textures/star2.xpm42");
 	if (!xpm[STAR2])
-		return (ft_putendl_fd("bean2.xpm42 was not found!", STDOUT_FILENO), false);
+		return (ft_putendl_fd("star2.xpm42 was not found!", STDOUT_FILENO), false);
 
 	xpm[GNOME_L_IDLE] = mlx_load_xpm42("textures/gnome_l_idle.xpm42");
 	if (!xpm[GNOME_L_IDLE])
@@ -85,7 +89,7 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 		map->mob.mob_img[i] = mlx_texture_to_image(map->mlx, &xpm[GNOME_L_IDLE]->texture);
 
 	for (int i = 0; i < STAR_COUNT; i++)
-		map->star.star_img[i] = mlx_texture_to_image(map->mlx, &xpm[STAR1]->texture);
+		map->star.star_img[i] = mlx_texture_to_image(map->mlx, &xpm[STAR_MARK]->texture);
 
 	for (int i = 0; i < TILE_COUNT; i++)
 		map->tile.tile_img[i] = mlx_texture_to_image(map->mlx, &xpm[TILE1]->texture);

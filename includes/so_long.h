@@ -45,6 +45,7 @@ typedef enum s_img
 	CHAR_L_FLY2,
 	CHAR_R_FLY2,
 	DOOR,
+	STAR_MARK,
 	STAR1,
 	STAR2,
 	GNOME_L_IDLE,
@@ -112,7 +113,7 @@ typedef struct s_map
 	// tiles / clouds
 	t_tile			tile; // struct for storing clouds' images
 	int 			tiles; // nbr of tiles
-	size_t			tile_dir[TILE_COUNT]; // movement dir for every cloudiiieee
+	size_t			tile_mov[TILE_COUNT]; // movement for every cloudiiieee
 
 	// char
 	size_t			char_dir;
@@ -127,9 +128,9 @@ typedef struct s_map
 	// stars
 	int				stars; // nbr of stars
 	t_star			star; // struct for storing moves' images and stars' coords
-	size_t			star_dir[STAR_COUNT]; // movement dir for every star
-	int				picked_beans_count;
-	bool			picked_up_bean[STAR_COUNT]; // has the star been collected or not
+	size_t			star_mov[STAR_COUNT]; // movement for every star
+	int				lit_up_stars_count;
+	bool			star_lit_up[STAR_COUNT]; // has the star been lit up or not
 
 } t_map;
 
