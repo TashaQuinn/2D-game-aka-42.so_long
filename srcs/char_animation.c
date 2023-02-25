@@ -10,7 +10,7 @@ void char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char, size_t y
 void move_char_up(t_map *map)
 {
 	int current_char_dir = map->char_dir; // for correcting the dir while flying
-	
+
 	if (current_char_dir == CHAR_R_FLY1)
 		map->char_dir = CHAR_R_FLY2;
 	else if (current_char_dir == CHAR_R_FLY2)
@@ -61,5 +61,5 @@ void char_animation(mlx_key_data_t keydata, void *map)
 
 	char_delete_and_put_images(map2, map2->xpm, x_char, y_char, map2->char_dir);
 	
-	collect_stars(map2, x_char, y_char);
+	lit_up_stars(map2, x_char, y_char);
 }

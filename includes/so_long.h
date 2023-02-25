@@ -69,6 +69,10 @@ typedef struct s_tile
 	mlx_image_t	 	**type[1];
 	size_t			x_tile[TILE_COUNT];
 	size_t			y_tile[TILE_COUNT];
+	size_t			x_tile_start[TILE_COUNT];
+	size_t			y_tile_start[TILE_COUNT];
+	size_t			x_tile_end[TILE_COUNT];
+	size_t			y_tile_end[TILE_COUNT];
 
 } t_tile;
 
@@ -113,6 +117,7 @@ typedef struct s_map
 	// tiles / clouds
 	t_tile			tile; // struct for storing clouds' images
 	int 			tiles; // nbr of tiles
+	bool			tile_hidden[TILE_COUNT];
 	size_t			tile_mov[TILE_COUNT]; // movement for every cloudiiieee
 
 	// char
@@ -152,7 +157,7 @@ void 	end_game();
 void 	tile_animation(void *map); // make our clouds move up and down to simulate hovering
 
 void 	char_animation(mlx_key_data_t key, void *map); // key hook for a char
-void 	collect_stars(t_map *map, size_t x_char, size_t y_char);
+void 	lit_up_stars(t_map *map, size_t x_char, size_t y_char);
 
 void 	star_animation(void *map); // another loop hook, but for stars this time ;) 
 		// iterating through all stars, making them appear and then shiiine

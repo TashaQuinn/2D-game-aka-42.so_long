@@ -31,8 +31,11 @@ void tile_animation(void *map)
 			{	
 				if (tile_num % 2 == 0)
 				{
-					tile_move(map, tile_num);
-					tiles_delete_and_put_images(map2, map2->xpm, tile_num, map2->tile.x_tile[tile_num], map2->tile.y_tile[tile_num], map2->tile_mov[tile_num]);
+					if (map2->tile_hidden[tile_num] == false)
+					{	
+						tile_move(map2, tile_num);
+						tiles_delete_and_put_images(map2, map2->xpm, tile_num, map2->tile.x_tile[tile_num], map2->tile.y_tile[tile_num], map2->tile_mov[tile_num]);
+					}
 				}
 			}
 

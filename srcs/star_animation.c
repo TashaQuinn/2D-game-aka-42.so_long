@@ -1,6 +1,6 @@
 #include "../includes/so_long.h"
 
-void collect_stars(t_map *map, size_t x_char, size_t y_char)
+void lit_up_stars(t_map *map, size_t x_char, size_t y_char)
 {
 	for (int star_num = 0; star_num < map->stars; star_num++)
 	{
@@ -12,6 +12,27 @@ void collect_stars(t_map *map, size_t x_char, size_t y_char)
 			map->lit_up_stars_count++;
 			printf("%d\n", map->lit_up_stars_count); // debug
 			map->star_lit_up[star_num] = true;
+
+			for (int tile_num = 0; tile_num < map->tiles; tile_num++)
+			{
+				printf("%ld <= %ld\n", x_char, map->tile.x_tile_start[tile_num]); // debug
+				printf("%ld >= %ld\n", x_char, map->tile.x_tile_end[tile_num]); // debug
+				printf("%ld <= %ld\n", y_char, map->tile.y_tile_start[tile_num]); // debug
+				printf("%ld >= %ld\n", y_char, map->tile.y_tile_end[tile_num]); // debug
+				printf("\n"); // debug
+				if ((x_char >= map->tile.x_tile_start[tile_num] && x_char <= map->tile.x_tile_end[tile_num]) 
+				&& (y_char >= map->tile.y_tile_start[tile_num] && y_char <= map->tile.y_tile_end[tile_num])
+				&& (map->tile_hidden[tile_num] == false))
+				{	
+					int time;
+					time++;
+					if (time > 500)
+					{
+						mlx_set_instance_depth(&map->tile.tile_img[tile_num]->instances[0], -800);
+						map->tile_hidden[tile_num] = true;
+					}
+				}
+			}
 		}
 	}
 }
@@ -21,6 +42,7 @@ void stars_delete_and_put_images(t_map *map, xpm_t **xpm, int star_num, size_t x
 	mlx_delete_image(map->mlx, map->star.star_img[star_num]);
 	map->star.star_img[star_num] = mlx_texture_to_image(map->mlx, &xpm[new_image]->texture);
 	mlx_image_to_window(map->mlx, map->star.star_img[star_num], x_star, y_star);
+	mlx_set_instance_depth(&map->star.star_img[star_num]->instances[0], -300);
 }
 
 void star_move(t_map *map, int star_num)

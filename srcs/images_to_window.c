@@ -30,6 +30,11 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 
 			map->tile.x_tile[map->tiles] = ((map->tile.type[0])[map->tiles]->instances[0].x);
 			map->tile.y_tile[map->tiles] = ((map->tile.type[0])[map->tiles]->instances[0].y);
+			map->tile.x_tile_start[map->tiles] = ((map->tile.type[0])[map->tiles]->instances[0].x - BLOCK * 2);
+			map->tile.y_tile_start[map->tiles] = ((map->tile.type[0])[map->tiles]->instances[0].y - BLOCK * 2);
+			map->tile.x_tile_end[map->tiles] = ((map->tile.type[0])[map->tiles]->instances[0].x + BLOCK * 2);
+			map->tile.y_tile_end[map->tiles] = ((map->tile.type[0])[map->tiles]->instances[0].y + BLOCK * 2);
+			map->tile_hidden[map->tiles] = false;
 
 			map->tiles++;
 		}
