@@ -1,6 +1,6 @@
 #include "../includes/so_long.h"
 
-static void jump(t_map *map)
+void jump(t_map *map)
 {
 	size_t y_char;
 
@@ -18,22 +18,15 @@ static void jump(t_map *map)
 			map->accel *= ACCEL_MOD;
 		}
 	}
-
-	if (mlx_is_key_down(map->mlx, MLX_KEY_SPACE))
-	{
-		if (map->fly == false)
-			map->fly = true;
-		else
-			map->fly = false;
-	}
 }
 
 void gravity(t_map *map, size_t x_char, size_t y_char)
 {
 	jump(map);
 
-	if (map->map[y_char + 1][x_char + 1] != '1' && GRAV == 1)
+	if (map->map[y_char + 1][x_char + 1] != '1')
 		map->img[CHAR]->instances[0].y += 3;
-	else if (mlx_is_key_down(map->mlx, MLX_KEY_W) && GRAV == 1 && map->map[y_char - 1][x_char] != '1' && map->map[y_char + 1][x_char] == '1')
+	else if (mlx_is_key_down(map->mlx, MLX_KEY_W) && map->map[y_char - 1][x_char] != '1' 
+			&& map->map[y_char + 1][x_char] == '1')
 		map->jump_lock = true;
 }

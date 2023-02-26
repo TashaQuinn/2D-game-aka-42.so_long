@@ -14,5 +14,14 @@ void hook(void *map)
 	{
 		gravity(map2, x_char, y_char);
 		mob_animation(map2, x_char, y_char);
+		char_animation(map2);
+		tile_animation(map2);
+		star_animation(map2);
+
+		x_char = map2->img[CHAR]->instances[0].x; // updating coords
+		y_char = map2->img[CHAR]->instances[0].y;
+
+		char_delete_and_put_images(map2, map2->xpm, x_char, y_char, map2->char_dir);
+		lit_up_stars(map2, x_char, y_char);
 	}
 }

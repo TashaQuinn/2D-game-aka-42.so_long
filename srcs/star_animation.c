@@ -8,31 +8,14 @@ void lit_up_stars(t_map *map, size_t x_char, size_t y_char)
 			&& (y_char >= map->star.y_star_start[star_num] && y_char <= map->star.y_star_end[star_num])
 			&& (map->star_lit_up[star_num] == false))
 		{
+			size_t x_char_coords = x_char; // the coords at the moment when the star lit up
+			size_t y_char_coords = y_char;
+
 			mlx_set_instance_depth(&map->star.star_img[star_num]->instances[0], -700);
 			map->lit_up_stars_count++;
-			printf("%d\n", map->lit_up_stars_count); // debug
 			map->star_lit_up[star_num] = true;
 
-			for (int tile_num = 0; tile_num < map->tiles; tile_num++)
-			{
-				printf("%ld <= %ld\n", x_char, map->tile.x_tile_start[tile_num]); // debug
-				printf("%ld >= %ld\n", x_char, map->tile.x_tile_end[tile_num]); // debug
-				printf("%ld <= %ld\n", y_char, map->tile.y_tile_start[tile_num]); // debug
-				printf("%ld >= %ld\n", y_char, map->tile.y_tile_end[tile_num]); // debug
-				printf("\n"); // debug
-				if ((x_char >= map->tile.x_tile_start[tile_num] && x_char <= map->tile.x_tile_end[tile_num]) 
-				&& (y_char >= map->tile.y_tile_start[tile_num] && y_char <= map->tile.y_tile_end[tile_num])
-				&& (map->tile_hidden[tile_num] == false))
-				{	
-					int time;
-					time++;
-					if (time > 500)
-					{
-						mlx_set_instance_depth(&map->tile.tile_img[tile_num]->instances[0], -800);
-						map->tile_hidden[tile_num] = true;
-					}
-				}
-			}
+			hide_tile(map, x_char_coords, y_char_coords);
 		}
 	}
 }
@@ -47,31 +30,37 @@ void stars_delete_and_put_images(t_map *map, xpm_t **xpm, int star_num, size_t x
 
 void star_move(t_map *map, int star_num)
 {
-
-	if (map->star_mov[star_num] == STAR2 || map->star_mov[star_num] == STAR_MARK)
-		map->star_mov[star_num] = STAR1;
+	if (map->star_lit_up[star_num] == false)
+	{
+		if (map->star_mov[star_num] == STAR_MARK2)
+			map->star_mov[star_num] = STAR_MARK1;
+		else
+			map->star_mov[star_num] = STAR_MARK2;
+	}
 	else
-		map->star_mov[star_num] = STAR2;
+	{
+		if ((map->star_mov[star_num] == STAR2)
+		|| (map->star_mov[star_num] == STAR_MARK1)
+		|| (map->star_mov[star_num] == STAR_MARK2))
+			map->star_mov[star_num] = STAR1;
+		else
+			map->star_mov[star_num] = STAR2;
+	}
 }
 
-void star_animation(void *map)
+void star_animation(t_map *map)
 {
-	t_map *map2 = map;
-
 	static int time;
 	time++;
 
-	for (int star_num = 0; star_num < map2->stars; star_num++)
+	for (int star_num = 0; star_num < map->stars; star_num++)
 	{
 		if (time > 30)
 		{	
-			for (int star_num = 0; star_num < map2->stars; star_num++)
+			for (int star_num = 0; star_num < map->stars; star_num++)
 			{	
-				if (map2->star_lit_up[star_num] == true)
-				{
-					star_move(map, star_num);
-					stars_delete_and_put_images(map2, map2->xpm, star_num, map2->star.x_star[star_num], map2->star.y_star[star_num], map2->star_mov[star_num]);
-				}
+				star_move(map, star_num);
+				stars_delete_and_put_images(map, map->xpm, star_num, map->star.x_star[star_num], map->star.y_star[star_num], map->star_mov[star_num]);
 			}
 
 			time = 0;

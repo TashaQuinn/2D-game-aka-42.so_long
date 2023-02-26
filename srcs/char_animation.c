@@ -43,23 +43,15 @@ void move_char_right(t_map *map)
 	map->img[CHAR]->instances[0].x += BLOCK / CHAR_SPEED;
 }
 
-void char_animation(mlx_key_data_t keydata, void *map)
+void char_animation(t_map *map)
 {
-	t_map *map2 = map;
-	
-	if (keydata.key == MLX_KEY_A)
-		move_char_left(map2);
-	else if (keydata.key == MLX_KEY_D)
-		move_char_right(map2);
-	else if (keydata.key == MLX_KEY_W)
-		move_char_up(map2);
-	else if (keydata.key == MLX_KEY_ESCAPE || keydata.key == MLX_KEY_Q)
+	if (mlx_is_key_down(map->mlx, MLX_KEY_A)) //&& (map2->coords[y_char - 1][x_char - 1] != '1'))
+		move_char_left(map);
+	else if (mlx_is_key_down(map->mlx, MLX_KEY_D)) //&& (x_char + 1 != '1'))
+		move_char_right(map);
+	else if (mlx_is_key_down(map->mlx, MLX_KEY_W)) //&& (y_char - 1 != '1'))
+		move_char_up(map);
+	else if ((mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE) )
+		|| (mlx_is_key_down(map->mlx, MLX_KEY_Q)))
 		end_game();
-
-	size_t x_char = map2->img[CHAR]->instances[0].x;
-	size_t y_char = map2->img[CHAR]->instances[0].y;
-
-	char_delete_and_put_images(map2, map2->xpm, x_char, y_char, map2->char_dir);
-	
-	lit_up_stars(map2, x_char, y_char);
 }

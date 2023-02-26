@@ -57,10 +57,8 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 
 	else if (map->map[y_height][x_width] == 'C') 
 	{
-		if ((mlx_image_to_window(map->mlx, map->star.star_img[map->stars], x_width * BLOCK, y_height * BLOCK)) == -1)
-		{
-            return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
-		}
+		if(((mlx_image_to_window(map->mlx, map->star.star_img[map->stars], x_width * BLOCK, y_height * BLOCK)) == -1))
+            return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);	
 
 		map->star.x_star[map->stars] = (map->star.type[0])[map->stars]->instances[0].x;
 		map->star.y_star[map->stars] = (map->star.type[0])[map->stars]->instances[0].y;

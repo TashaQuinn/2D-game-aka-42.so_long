@@ -22,14 +22,13 @@
 # endif
 
 # define BLOCK			48 // 48x28
-# define HALF_BLOCK	24
+# define HALF_BLOCK		24
 # define CHAR_SPEED		5 // speed up or slow down char's movements
 # define MOB_SPEED		2 // speed up or slow down mobs' movements
 # define STAR_COUNT 	7 // needed for loading images
 # define MOB_COUNT 		5 // needed for loading images
 # define TILE_COUNT 	50 // needed for loading images
 # define ACCEL 			1
-# define GRAV 			1
 # define ACCEL_MOD		1.2
 # define JUMP_CAP		100
 
@@ -45,7 +44,8 @@ typedef enum s_img
 	CHAR_L_FLY2,
 	CHAR_R_FLY2,
 	DOOR,
-	STAR_MARK,
+	STAR_MARK1,
+	STAR_MARK2,
 	STAR1,
 	STAR2,
 	GNOME_L_IDLE,
@@ -79,7 +79,7 @@ typedef struct s_tile
 typedef struct s_mob
 {
 	mlx_image_t	 	*mob_img[MOB_COUNT];
-	mlx_image_t	 	**type[1]; // type 0 + NULL
+	mlx_image_t	 	**type[1];
 	int				x_mob[MOB_COUNT];
 	int				y_mob[MOB_COUNT];
 
@@ -105,31 +105,27 @@ typedef struct s_map
 	int				width;
 	int				height;
 	//int			steps;
-	t_door			door; // struct for storing door's coords
 	xpm_t			*xpm[IMG_COUNT];
 	mlx_image_t		*img[IMG_COUNT];
-
-	// jump
-	float			accel;
-	bool			jump_lock;
-	bool			fly;
-	
-	// tiles / clouds
+	// door
+	t_door			door; // struct for storing door's coords (it is the Moon actually)
+	// tiles (aka clouds)
 	t_tile			tile; // struct for storing clouds' images
 	int 			tiles; // nbr of tiles
 	bool			tile_hidden[TILE_COUNT];
 	size_t			tile_mov[TILE_COUNT]; // movement for every cloudiiieee
-
 	// char
 	size_t			char_dir;
 	int				lives;
-
+	char			**coords; // WTF
+	// jump
+	float			accel;
+	bool			jump_lock;
 	// mobs
 	int 			mobs; // nbr of mobs
 	t_mob			mob; // struct for storing moves' images and mobs' coords
 	bool			mob_move_left[MOB_COUNT];
 	size_t			mob_dir[MOB_COUNT]; // movement dir for every mob
-	
 	// stars
 	int				stars; // nbr of stars
 	t_star			star; // struct for storing moves' images and stars' coords
@@ -139,7 +135,6 @@ typedef struct s_map
 
 } t_map;
 
-//void	free_arr_map(t_map *map);
 
 t_map 	*map_parsing(int argc, char **argv);
 char	*get_line(char **av);
@@ -148,24 +143,36 @@ bool 	load_textures(xpm_t **xpm);
 bool 	convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img);
 bool	display_sprites_and_steps(t_map *map);
 
-void 	hook(void *map); // loop hook for mobs and lives left
-void 	mob_animation(t_map *map, size_t x_char, size_t y_char); // iterating through all mobs, 
-		// changing their movement dirs and making them run ;)
-void 	gravity(t_map *map, size_t x_char, size_t y_char);
+// hook? HOOK!
+void 	hook(void *map); // loop hook for everything what is moving;)
 void 	end_game();
 
-void 	tile_animation(void *map); // make our clouds move up and down to simulate hovering
+// tile animation and interactions
+void 	mob_animation(t_map *map, size_t x_char, size_t y_char); /* iterating 
+		through all mobs, changing their movements' dirs and making them fly 
+		from the left to the right and vice versa ;) */
 
-void 	char_animation(mlx_key_data_t key, void *map); // key hook for a char
+// tile animation and interactions
+void 	tile_animation(t_map *map); // make clouds move up and down to simulate hovering
+void 	hide_tile(t_map *map, size_t x_char, size_t y_char);
+
+// char animation and interactions
+void 	gravity(t_map *map, size_t x_char, size_t y_char);
+void 	char_animation(t_map *map); // key hook for a char
+void 	char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char, 
+		size_t y_char, t_img new_image);
 void 	lit_up_stars(t_map *map, size_t x_char, size_t y_char);
 
-void 	star_animation(void *map); // another loop hook, but for stars this time ;) 
-		// iterating through all stars, making them appear and then shiiine
+// star animation and interactions
+void 	star_animation(t_map *map); /* iterating through all stars, making them 
+		appear and then shiiine */
 void 	star_move(t_map *map, int star_num); // changing movement type (aka mov_dir)
-void 	stars_delete_and_put_images(t_map *map, xpm_t **xpm, int star_num, size_t x_star, size_t y_star, t_img new_image);
+void 	stars_delete_and_put_images(t_map *map, xpm_t **xpm, int star_num, 
+		size_t x_star, size_t y_star, t_img new_image);
 		// deleting old images and replacing with new ones
 
 void 	close_window(t_map *map, char *str);
 void 	terminate(t_map *map);
+//void	free_arr_map(t_map *map);
 
 #endif
