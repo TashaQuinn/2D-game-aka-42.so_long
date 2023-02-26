@@ -43,13 +43,13 @@ void move_char_right(t_map *map)
 	map->img[CHAR]->instances[0].x += BLOCK / CHAR_SPEED;
 }
 
-void char_animation(t_map *map)
+void char_animation(t_map *map, size_t x_char, size_t y_char)
 {
-	if (mlx_is_key_down(map->mlx, MLX_KEY_A)) //&& (map2->coords[y_char - 1][x_char - 1] != '1'))
+	if (mlx_is_key_down(map->mlx, MLX_KEY_A) && (map->map[y_char][x_char] != '1'))
 		move_char_left(map);
-	else if (mlx_is_key_down(map->mlx, MLX_KEY_D)) //&& (x_char + 1 != '1'))
+	else if (mlx_is_key_down(map->mlx, MLX_KEY_D) && (map->map[y_char][x_char + 2] != '1'))
 		move_char_right(map);
-	else if (mlx_is_key_down(map->mlx, MLX_KEY_W)) //&& (y_char - 1 != '1'))
+	else if (mlx_is_key_down(map->mlx, MLX_KEY_W) && (map->map[y_char][x_char + 1] != '1'))
 		move_char_up(map);
 	else if ((mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE) )
 		|| (mlx_is_key_down(map->mlx, MLX_KEY_Q)))

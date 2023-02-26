@@ -56,21 +56,21 @@ bool load_textures(xpm_t **xpm)
 	if (!xpm[STAR2])
 		return (ft_putendl_fd("star2.xpm42 was not found!", STDOUT_FILENO), false);
 
-	xpm[GNOME_L_IDLE] = mlx_load_xpm42("textures/gnome_l_idle.xpm42");
-	if (!xpm[GNOME_L_IDLE])
-		return (ft_putendl_fd("gnome_l_idle.xpm42 was not found!", STDOUT_FILENO), false);
+	xpm[WITCH_L_DOWN] = mlx_load_xpm42("textures/witch_l_down.xpm42");
+	if (!xpm[WITCH_L_DOWN])
+		return (ft_putendl_fd("witch_l_down.xpm42 was not found!", STDOUT_FILENO), false);
 
-	xpm[GNOME_R_IDLE] = mlx_load_xpm42("textures/gnome_r_idle.xpm42");
-	if (!xpm[GNOME_R_IDLE])
-		return (ft_putendl_fd("gnome_r_idle.xpm42 was not found!", STDOUT_FILENO), false);
+	xpm[WITCH_R_DOWN] = mlx_load_xpm42("textures/witch_r_down.xpm42");
+	if (!xpm[WITCH_R_DOWN])
+		return (ft_putendl_fd("witch_r_down.xpm42 was not found!", STDOUT_FILENO), false);
 
-	xpm[GNOME_L_RUN] = mlx_load_xpm42("textures/gnome_l_run.xpm42");
-	if (!xpm[GNOME_L_RUN])
-		return (ft_putendl_fd("gnome_l_run.xpm42 was not found!", STDOUT_FILENO), false);
+	xpm[WITCH_L_UP] = mlx_load_xpm42("textures/witch_l_up.xpm42");
+	if (!xpm[WITCH_L_UP])
+		return (ft_putendl_fd("witch_l_up.xpm42 was not found!", STDOUT_FILENO), false);
 
-	xpm[GNOME_R_RUN] = mlx_load_xpm42("textures/gnome_r_run.xpm42");
-	if (!xpm[GNOME_R_RUN])
-		return (ft_putendl_fd("gnome_r_run.xpm42 was not found!", STDOUT_FILENO), false);
+	xpm[WITCH_R_UP] = mlx_load_xpm42("textures/witch_r_up.xpm42");
+	if (!xpm[WITCH_R_UP])
+		return (ft_putendl_fd("witch_r_up.xpm42 was not found!", STDOUT_FILENO), false);
 
 	return true;
 }
@@ -85,12 +85,11 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 	if (!img[BG] 
 		|| !img[WALL] 
 		|| !img[CHAR_R_FLY1]  
-		|| !img[DOOR]  
-		|| !img[GNOME_L_IDLE])
+		|| !img[DOOR])
 		return (ft_putendl_fd("Image to texture convertion has failed!", STDOUT_FILENO), false);
 	
 	for (int i = 0; i < MOB_COUNT; i++)
-		map->mob.mob_img[i] = mlx_texture_to_image(map->mlx, &xpm[GNOME_L_IDLE]->texture);
+		map->mob.mob_img[i] = mlx_texture_to_image(map->mlx, &xpm[WITCH_L_DOWN]->texture);
 
 	for (int i = 0; i < STAR_COUNT; i++)
 		map->star.star_img[i] = mlx_texture_to_image(map->mlx, &xpm[STAR_MARK1]->texture);

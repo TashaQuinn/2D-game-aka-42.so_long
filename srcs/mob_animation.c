@@ -24,17 +24,15 @@ void check_damage(t_map *map, size_t x_char, size_t y_char, size_t mob_num)
 
 static void mob_moves(t_map *map, t_mob *mob, size_t mob_num)
 {	
-	//printf("%d <= %d\n", mob->x_mob[0] + BLOCK, (map->width * BLOCK) - BLOCK); // debug
-
 	if ((mob->x_mob[mob_num] - BLOCK >= 0 + BLOCK) && map->mob_move_left[mob_num] == true) 
 	// there is no wall on the left
 	{
-		if (map->mob_dir[mob_num] == GNOME_L_IDLE)
-			map->mob_dir[mob_num] = GNOME_L_RUN;
+		if (map->mob_dir[mob_num] == WITCH_L_DOWN)
+			map->mob_dir[mob_num] = WITCH_L_UP;
 		else
-			map->mob_dir[mob_num] = GNOME_L_IDLE;
+			map->mob_dir[mob_num] = WITCH_L_DOWN;
 
-		(map->mob.type[0])[mob_num]->instances[0].x -= BLOCK / MOB_SPEED;
+		(map->mob.type[0])[mob_num]->instances[0].x -= BLOCK;
 
 		if (mob->x_mob[mob_num] - BLOCK == 0 + BLOCK)
 			map->mob_move_left[mob_num] = false;
@@ -43,12 +41,12 @@ static void mob_moves(t_map *map, t_mob *mob, size_t mob_num)
 	else if ((mob->x_mob[mob_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 2) && map->mob_move_left[mob_num] == false) 
 	// there is no wall on the right
 	{	
-		if (map->mob_dir[mob_num] == GNOME_R_IDLE)
-			map->mob_dir[mob_num] = GNOME_R_RUN;
+		if (map->mob_dir[mob_num] == WITCH_R_DOWN)
+			map->mob_dir[mob_num] = WITCH_R_UP;
 		else
-			map->mob_dir[mob_num] = GNOME_R_IDLE;
+			map->mob_dir[mob_num] = WITCH_R_DOWN;
 		
-		(map->mob.type[0])[mob_num]->instances[0].x += BLOCK / MOB_SPEED;
+		(map->mob.type[0])[mob_num]->instances[0].x += BLOCK;
 
 		if (mob->x_mob[mob_num] + BLOCK == (map->width * BLOCK) - BLOCK * 2)
 			map->mob_move_left[mob_num] = true;
@@ -62,7 +60,7 @@ void mob_animation(t_map *map, size_t x_char, size_t y_char)
 
 	for (int mob_num = 0; mob_num < map->mobs; mob_num++)
 	{
-		if (time > 10)
+		if (time > 7)
 		{	
 			for (int mob_num = 0; mob_num < map->mobs; mob_num++)
 			{

@@ -1,16 +1,14 @@
 #include "../includes/so_long.h"
 
-void jump(t_map *map)
+void jump(t_map *map, size_t x_char, size_t y_char)
 {
-	size_t y_char;
-
-	y_char = map->img[CHAR]->instances[0].y - (BLOCK / map->accel);
+	size_t y_char_jump = map->img[CHAR]->instances[0].y - (BLOCK / map->accel);
 
 	if (map->jump_lock == false)
 		map->accel = ACCEL;
 	else
 	{
-		if (map->accel >= JUMP_CAP || y_char - BLOCK / map->accel < 0)
+		if ((map->accel >= JUMP_HEIGHT) || (y_char_jump - BLOCK / map->accel < 0))
 			map->jump_lock = false;
 		else
 		{
@@ -18,11 +16,6 @@ void jump(t_map *map)
 			map->accel *= ACCEL_MOD;
 		}
 	}
-}
-
-void gravity(t_map *map, size_t x_char, size_t y_char)
-{
-	jump(map);
 
 	if (map->map[y_char + 1][x_char + 1] != '1')
 		map->img[CHAR]->instances[0].y += 3;

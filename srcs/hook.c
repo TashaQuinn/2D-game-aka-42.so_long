@@ -12,9 +12,9 @@ void hook(void *map)
 		end_game();
 	else
 	{
-		gravity(map2, x_char, y_char);
+		jump(map2, x_char, y_char);
+		char_animation(map2, x_char, y_char);
 		mob_animation(map2, x_char, y_char);
-		char_animation(map2);
 		tile_animation(map2);
 		star_animation(map2);
 

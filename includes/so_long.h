@@ -24,13 +24,13 @@
 # define BLOCK			48 // 48x28
 # define HALF_BLOCK		24
 # define CHAR_SPEED		5 // speed up or slow down char's movements
-# define MOB_SPEED		2 // speed up or slow down mobs' movements
+# define MOB_SPEED		1 // speed up or slow down mobs' movements
 # define STAR_COUNT 	7 // needed for loading images
-# define MOB_COUNT 		5 // needed for loading images
+# define MOB_COUNT 		1 // needed for loading images
 # define TILE_COUNT 	50 // needed for loading images
 # define ACCEL 			1
-# define ACCEL_MOD		1.2
-# define JUMP_CAP		100
+# define ACCEL_MOD		1.3
+# define JUMP_HEIGHT	100
 
 typedef enum s_img
 {
@@ -48,10 +48,10 @@ typedef enum s_img
 	STAR_MARK2,
 	STAR1,
 	STAR2,
-	GNOME_L_IDLE,
-	GNOME_R_IDLE,
-	GNOME_L_RUN,
-	GNOME_R_RUN,
+	WITCH_L_DOWN,
+	WITCH_R_DOWN,
+	WITCH_L_UP,
+	WITCH_R_UP,
 	IMG_COUNT,
 
 } t_img;
@@ -157,8 +157,8 @@ void 	tile_animation(t_map *map); // make clouds move up and down to simulate ho
 void 	hide_tile(t_map *map, size_t x_char, size_t y_char);
 
 // char animation and interactions
-void 	gravity(t_map *map, size_t x_char, size_t y_char);
-void 	char_animation(t_map *map); // key hook for a char
+void 	jump(t_map *map, size_t x_char, size_t y_char);
+void 	char_animation(t_map *map, size_t x_char, size_t y_char); // key hook for a char
 void 	char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char, 
 		size_t y_char, t_img new_image);
 void 	lit_up_stars(t_map *map, size_t x_char, size_t y_char);
