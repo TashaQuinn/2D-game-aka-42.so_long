@@ -11,6 +11,7 @@
 # include <fcntl.h>
 # include <sys/errno.h>
 # include <string.h> // strerror()
+# include <time.h> // rand()
 
 # ifndef _WIN32
 	# include <sys/wait.h>
@@ -26,7 +27,8 @@
 # define CHAR_SPEED		5 // speed up or slow down char's movements
 # define MOB_SPEED		1 // speed up or slow down mobs' movements
 # define STAR_COUNT 	7 // needed for loading images
-# define MOB_COUNT 		1 // needed for loading images
+# define WITCH_COUNT	1 // needed for loading images
+# define BATS_COUNT 	2 // needed for loading images
 # define TILE_COUNT 	50 // needed for loading images
 # define ACCEL 			1
 # define ACCEL_MOD		1.3
@@ -52,6 +54,10 @@ typedef enum s_img
 	WITCH_R_DOWN,
 	WITCH_L_UP,
 	WITCH_R_UP,
+	BAT_L_FLY1,
+	BAT_R_FLY1,
+	BAT_L_FLY2,
+	BAT_R_FLY2,
 	IMG_COUNT,
 
 } t_img;
@@ -78,10 +84,13 @@ typedef struct s_tile
 
 typedef struct s_mob
 {
-	mlx_image_t	 	*mob_img[MOB_COUNT];
-	mlx_image_t	 	**type[1];
-	int				x_mob[MOB_COUNT];
-	int				y_mob[MOB_COUNT];
+	mlx_image_t	 	*witch_img[WITCH_COUNT];
+	mlx_image_t	 	*bat_img[BATS_COUNT];
+	mlx_image_t	 	**type[2];
+	int				x_witch[WITCH_COUNT];
+	int				y_witch[WITCH_COUNT];
+	int				x_bat[BATS_COUNT];
+	int				y_bat[BATS_COUNT];
 
 } t_mob;
 
@@ -117,15 +126,16 @@ typedef struct s_map
 	// char
 	size_t			char_dir;
 	int				lives;
-	char			**coords; // WTF
 	// jump
 	float			accel;
 	bool			jump_lock;
 	// mobs
 	int 			mobs; // nbr of mobs
 	t_mob			mob; // struct for storing moves' images and mobs' coords
-	bool			mob_move_left[MOB_COUNT];
-	size_t			mob_dir[MOB_COUNT]; // movement dir for every mob
+	bool			witch_move_left[WITCH_COUNT];
+	bool			bat_move_left[BATS_COUNT];
+	size_t			witch_dir[WITCH_COUNT]; // movement dir for every witch
+	size_t			bat_dir[BATS_COUNT]; // movement dir for every bat
 	// stars
 	int				stars; // nbr of stars
 	t_star			star; // struct for storing moves' images and stars' coords

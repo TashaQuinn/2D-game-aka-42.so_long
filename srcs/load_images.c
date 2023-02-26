@@ -72,6 +72,22 @@ bool load_textures(xpm_t **xpm)
 	if (!xpm[WITCH_R_UP])
 		return (ft_putendl_fd("witch_r_up.xpm42 was not found!", STDOUT_FILENO), false);
 
+	xpm[BAT_L_FLY1] = mlx_load_xpm42("textures/bat_l_fly1.xpm42");
+	if (!xpm[BAT_L_FLY1])
+		return (ft_putendl_fd("bat_l_fly1.xpm42 was not found!", STDOUT_FILENO), false);
+
+	xpm[BAT_R_FLY1] = mlx_load_xpm42("textures/bat_r_fly1.xpm42");
+	if (!xpm[BAT_R_FLY1])
+		return (ft_putendl_fd("bat_r_fly1.xpm42 was not found!", STDOUT_FILENO), false);
+
+	xpm[BAT_L_FLY2] = mlx_load_xpm42("textures/bat_l_fly2.xpm42");
+	if (!xpm[BAT_L_FLY2])
+		return (ft_putendl_fd("bat_l_fly2.xpm42 was not found!", STDOUT_FILENO), false);
+
+	xpm[BAT_R_FLY2] = mlx_load_xpm42("textures/bat_r_fly2.xpm42");
+	if (!xpm[BAT_R_FLY2])
+		return (ft_putendl_fd("bat_r_fly2.xpm42 was not found!", STDOUT_FILENO), false);
+
 	return true;
 }
 
@@ -88,8 +104,11 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 		|| !img[DOOR])
 		return (ft_putendl_fd("Image to texture convertion has failed!", STDOUT_FILENO), false);
 	
-	for (int i = 0; i < MOB_COUNT; i++)
-		map->mob.mob_img[i] = mlx_texture_to_image(map->mlx, &xpm[WITCH_L_DOWN]->texture);
+	for (int i = 0; i < WITCH_COUNT; i++)
+		map->mob.witch_img[i] = mlx_texture_to_image(map->mlx, &xpm[WITCH_L_DOWN]->texture);
+	
+	for (int i = 0; i < BATS_COUNT; i++)
+		map->mob.bat_img[i] = mlx_texture_to_image(map->mlx, &xpm[BAT_L_FLY1]->texture);
 
 	for (int i = 0; i < STAR_COUNT; i++)
 		map->star.star_img[i] = mlx_texture_to_image(map->mlx, &xpm[STAR_MARK1]->texture);
@@ -98,7 +117,8 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 		map->tile.tile_img[i] = mlx_texture_to_image(map->mlx, &xpm[TILE1]->texture);
 
 	img[CHAR] = img[CHAR_R_FLY1]; //
-	map->mob.type[0] = map->mob.mob_img; // ?
+	map->mob.type[0] = map->mob.witch_img;
+	map->mob.type[1] = map->mob.bat_img;
 	map->tile.type[0] = map->tile.tile_img;
 	map->star.type[0] = map->star.star_img;
 	//map->mob.type[1] = NULL; // ?

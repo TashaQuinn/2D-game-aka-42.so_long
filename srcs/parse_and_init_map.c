@@ -22,6 +22,8 @@ t_map *init_map(char *line)
 	map->lives = 3;
 	map->tiles = 0;
 	map->accel = ACCEL;
+	map->bat_move_left[0] = false;
+	map->bat_move_left[1] = true;
 	//map->steps = 0;
 
 	free(line);

@@ -3,7 +3,8 @@
 bool image_to_window(t_map *map, int y_height, int x_width)
 {
     //return (free_array(map->img, "Image display has failed!", map), false);
-	
+	static int i = 0;
+
 	if (map->map[y_height][x_width] == '1')
 	{
 		if (x_width == 0 || y_height == 0 || y_height == map->height - 1 || x_width == map->width - 1) // boarders (/walls)
@@ -73,11 +74,24 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 	
 	else if (map->map[y_height][x_width] == 'X') 
     {
-        if ((mlx_image_to_window(map->mlx, map->mob.mob_img[map->mobs], x_width * BLOCK, y_height * BLOCK)) == -1)
+		if (i == 0) // the which is 0 num
+       	{
+			if ((mlx_image_to_window(map->mlx, map->mob.witch_img[map->mobs], x_width * BLOCK, y_height * BLOCK)) == -1)
+			{
+            	return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
+			}
+
+			map->mobs = -1;
+		}
+		else // we also need bats which are 0 and 1 num
 		{
-            return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
+			if ((mlx_image_to_window(map->mlx, map->mob.bat_img[map->mobs], x_width * BLOCK, y_height * BLOCK)) == -1)
+			{
+            	return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
+			}
 		}
 		
+		i++;
 	    map->mobs++;
     }
 
