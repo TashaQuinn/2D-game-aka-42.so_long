@@ -22,17 +22,17 @@
 	# define WIN 1
 # endif
 
-# define BLOCK			48 // 48x28
-# define HALF_BLOCK		24
-# define CHAR_SPEED		5 // speed up or slow down char's movements
-# define MOB_SPEED		1 // speed up or slow down mobs' movements
-# define STAR_COUNT 	7 // needed for loading images
-# define WITCH_COUNT	1 // needed for loading images
-# define BATS_COUNT 	2 // needed for loading images
-# define TILE_COUNT 	50 // needed for loading images
-# define ACCEL 			1
-# define ACCEL_MOD		1.3
-# define JUMP_HEIGHT	100
+# define BLOCK				48 // 48x28
+# define HALF_BLOCK			24
+# define CHAR_SPEED			5 // speed up or slow down char's movements
+# define MOB_SPEED			1 // speed up or slow down mobs' movements
+# define STAR_COUNT 		7 // needed for loading images
+# define WITCH_COUNT		1 // needed for loading images
+# define BATS_COUNT 		2 // needed for loading images
+# define TILE_COUNT 		50 // needed for loading images
+# define JUMP_HEIGHT 		1
+# define JUMP_MOD			1.2
+# define MAX_JUMP_HEIGHT	100
 
 typedef enum s_img
 {
@@ -126,11 +126,10 @@ typedef struct s_map
 	// char
 	size_t			char_dir;
 	int				lives;
-	// jump
-	float			accel;
-	bool			jump_lock;
+	float			jump_height;
+	bool			jumping;
 	// mobs
-	int 			mobs; // nbr of mobs
+	int 			mobs; // nbr of mobs, used while parsing the map
 	t_mob			mob; // struct for storing moves' images and mobs' coords
 	bool			witch_move_left[WITCH_COUNT];
 	bool			bat_move_left[BATS_COUNT];
@@ -157,10 +156,9 @@ bool	display_sprites_and_steps(t_map *map);
 void 	hook(void *map); // loop hook for everything what is moving;)
 void 	end_game();
 
-// tile animation and interactions
+// mob animation and interactions
 void 	mob_animation(t_map *map, size_t x_char, size_t y_char); /* iterating 
-		through all mobs, changing their movements' dirs and making them fly 
-		from the left to the right and vice versa ;) */
+		all mobs, changing their movements' dirs and making them fly ;) */
 
 // tile animation and interactions
 void 	tile_animation(t_map *map); // make clouds move up and down to simulate hovering
@@ -174,7 +172,7 @@ void 	char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char,
 void 	lit_up_stars(t_map *map, size_t x_char, size_t y_char);
 
 // star animation and interactions
-void 	star_animation(t_map *map); /* iterating through all stars, making them 
+void 	star_animation(t_map *map); /* iterating all stars, making them 
 		appear and then shiiine */
 void 	star_move(t_map *map, int star_num); // changing movement type (aka mov_dir)
 void 	stars_delete_and_put_images(t_map *map, xpm_t **xpm, int star_num, 

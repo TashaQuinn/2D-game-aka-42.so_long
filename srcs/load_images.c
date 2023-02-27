@@ -40,13 +40,13 @@ bool load_textures(xpm_t **xpm)
 	if (!xpm[DOOR])
 		return (ft_putendl_fd("moon_door.xpm42 was not found!", STDOUT_FILENO), false);
 
-	xpm[STAR_MARK1] = mlx_load_xpm42("textures/star_mark1.xpm42");
+	/*xpm[STAR_MARK1] = mlx_load_xpm42("textures/star_mark1.xpm42");
 	if (!xpm[STAR_MARK2])
 		return (ft_putendl_fd("star_mark1.xpm42 was not found!", STDOUT_FILENO), false);
 
 	xpm[STAR_MARK2] = mlx_load_xpm42("textures/star_mark2.xpm42");
 	if (!xpm[STAR_MARK2])
-		return (ft_putendl_fd("star_mark2.xpm42 was not found!", STDOUT_FILENO), false);
+		return (ft_putendl_fd("star_mark2.xpm42 was not found!", STDOUT_FILENO), false);*/
 
 	xpm[STAR1] = mlx_load_xpm42("textures/star1.xpm42");
 	if (!xpm[STAR1])
@@ -111,7 +111,7 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 		map->mob.bat_img[i] = mlx_texture_to_image(map->mlx, &xpm[BAT_L_FLY1]->texture);
 
 	for (int i = 0; i < STAR_COUNT; i++)
-		map->star.star_img[i] = mlx_texture_to_image(map->mlx, &xpm[STAR_MARK1]->texture);
+		map->star.star_img[i] = mlx_texture_to_image(map->mlx, &xpm[STAR1]->texture); // &xpm[STAR_MARK1]->texture
 
 	for (int i = 0; i < TILE_COUNT; i++)
 		map->tile.tile_img[i] = mlx_texture_to_image(map->mlx, &xpm[TILE1]->texture);
@@ -121,7 +121,10 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 	map->mob.type[1] = map->mob.bat_img;
 	map->tile.type[0] = map->tile.tile_img;
 	map->star.type[0] = map->star.star_img;
-	//map->mob.type[1] = NULL; // ?
+
+	map->mob.type[2] = NULL;
+	map->tile.type[1] = NULL;
+	map->star.type[1] = NULL;
 
 	return true;
 }

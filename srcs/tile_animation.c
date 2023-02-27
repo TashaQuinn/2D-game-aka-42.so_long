@@ -24,7 +24,7 @@ void tiles_delete_and_put_images(t_map *map, xpm_t **xpm, int tile_num, size_t x
 	mlx_delete_image(map->mlx, map->tile.tile_img[tile_num]);
 	map->tile.tile_img[tile_num] = mlx_texture_to_image(map->mlx, &xpm[new_image]->texture);
 	mlx_image_to_window(map->mlx, map->tile.tile_img[tile_num], x_tile, y_tile);
-	mlx_set_instance_depth(&map->tile.tile_img[tile_num]->instances[0], -400); // avoiding blocking main char
+	mlx_set_instance_depth(&map->tile.tile_img[tile_num]->instances[0], -400); // avoid blocking main char
 }
 
 void tile_move(t_map *map, int tile_num)

@@ -12,6 +12,7 @@ void witch_delete_and_put_images(t_map *map, xpm_t **xpm, size_t witch_num, size
 	mlx_delete_image(map->mlx, map->mob.witch_img[witch_num]);
 	map->mob.witch_img[witch_num] = mlx_texture_to_image(map->mlx, &xpm[new_image]->texture);
 	mlx_image_to_window(map->mlx, map->mob.witch_img[witch_num], x_witch, y_witch);
+	mlx_set_instance_depth(&map->mob.witch_img[witch_num]->instances[0], -100); // to hide the witch behind the walls when they are reached
 }
 
 void check_damage(t_map *map, size_t x_char, size_t y_char, size_t type, size_t mob_num)
@@ -30,54 +31,37 @@ static void bat_moves(t_map *map, t_mob *mob, size_t bat_num)
 {	
 	srand(time(NULL));
 
-	static int random;
+	int random = rand() % 4;
 
-	if (bat_num == 0)
-		random = rand() % 3;
-	else
-	{
-		random += 1;
-		if (random == 4)
-			random = 3;
-	}
+	if (bat_num % 2 == 0) // making bats move asynchronously
+		random = rand() % 4;
 
-	if (random == 0 && mob->x_bat[bat_num] - BLOCK >= 0 + BLOCK * 2) // left 0 + BLOCK
+	if ((random == 0 && mob->x_bat[bat_num] - BLOCK >= 0 + BLOCK * 2)
+		|| (random == 1 && mob->y_bat[bat_num] - BLOCK <= map->height * BLOCK - BLOCK * 8))
 	{
 		if (map->bat_dir[bat_num] == BAT_L_FLY1)
 			map->bat_dir[bat_num] = BAT_L_FLY2;
 		else
 			map->bat_dir[bat_num] = BAT_L_FLY1;
 		
-		(map->mob.type[1])[bat_num]->instances[0].x -= BLOCK;
+		if (random == 0)
+			(map->mob.type[1])[bat_num]->instances[0].x -= HALF_BLOCK;
+		else 
+			(map->mob.type[1])[bat_num]->instances[0].y += HALF_BLOCK;
 	}
-
-	if (random == 1 && mob->y_bat[bat_num] - BLOCK <= map->height * BLOCK - BLOCK * 8) // down BLOCK * 4
-	{
-		if (map->bat_dir[bat_num] == BAT_L_FLY1)
-			map->bat_dir[bat_num] = BAT_L_FLY2;
-		else
-			map->bat_dir[bat_num] = BAT_L_FLY1;
-		
-		(map->mob.type[1])[bat_num]->instances[0].y += BLOCK;
-	}
-
-	if (random == 2 && mob->x_bat[bat_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 3) // right  BLOCK * 2
-	{
-		if (map->bat_dir[bat_num] == BAT_R_FLY1)
-			map->bat_dir[bat_num] = BAT_R_FLY2;
-		else
-			map->bat_dir[bat_num] = BAT_R_FLY1;
-		(map->mob.type[1])[bat_num]->instances[0].x += BLOCK;
-	}
-
-	if (random == 3 && mob->y_bat[bat_num] + BLOCK >= map->height - map->height + BLOCK * 5) // up BLOCK * 3
+	
+	if ((random == 2 && mob->x_bat[bat_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 3)
+		|| (random == 3 && mob->y_bat[bat_num] + BLOCK >= map->height - map->height + BLOCK * 5))
 	{
 		if (map->bat_dir[bat_num] == BAT_R_FLY1)
 			map->bat_dir[bat_num] = BAT_R_FLY2;
 		else
 			map->bat_dir[bat_num] = BAT_R_FLY1;
 		
-		(map->mob.type[1])[bat_num]->instances[0].y -= BLOCK;
+		if (random == 2)
+			(map->mob.type[1])[bat_num]->instances[0].x += HALF_BLOCK;
+		else 
+			(map->mob.type[1])[bat_num]->instances[0].y -= HALF_BLOCK;
 	}
 
 	/*if ((mob->x_bat[bat_num] - BLOCK >= 0 + BLOCK) 
@@ -125,8 +109,7 @@ static void bat_moves(t_map *map, t_mob *mob, size_t bat_num)
 
 static void witch_moves(t_map *map, t_mob *mob, size_t witch_num)
 {	
-	if ((mob->x_witch[witch_num] - BLOCK >= 0 + BLOCK) && map->witch_move_left[witch_num] == true) 
-	// there is no wall on the left
+	if ((mob->x_witch[witch_num] - BLOCK >= 0) && map->witch_move_left[witch_num] == true)
 	{
 		if (map->witch_dir[witch_num] == WITCH_L_DOWN)
 			map->witch_dir[witch_num] = WITCH_L_UP;
@@ -135,12 +118,18 @@ static void witch_moves(t_map *map, t_mob *mob, size_t witch_num)
 
 		(map->mob.type[0])[witch_num]->instances[0].x -= BLOCK;
 
-		if (mob->x_witch[witch_num] - BLOCK == 0 + BLOCK)
+		if (mob->x_witch[witch_num] - BLOCK == 0)
+		{
 			map->witch_move_left[witch_num] = false;
+
+			if ((mob->y_witch[witch_num] != BLOCK * 4) && (mob->y_witch[witch_num] != map->height * BLOCK - BLOCK * 8)) // changing y while flying
+				(map->mob.type[0])[witch_num]->instances[0].y += BLOCK;
+			else
+				(map->mob.type[0])[witch_num]->instances[0].y -= BLOCK * 2;
+		}
 	}
 	
-	else if ((mob->x_witch[witch_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 2) && map->witch_move_left[witch_num] == false) 
-	// there is no wall on the right
+	else if ((mob->x_witch[witch_num] <= (map->width * BLOCK) - BLOCK) && map->witch_move_left[witch_num] == false)
 	{	
 		if (map->witch_dir[witch_num] == WITCH_R_DOWN)
 			map->witch_dir[witch_num] = WITCH_R_UP;
@@ -149,8 +138,15 @@ static void witch_moves(t_map *map, t_mob *mob, size_t witch_num)
 		
 		(map->mob.type[0])[witch_num]->instances[0].x += BLOCK;
 
-		if (mob->x_witch[witch_num] + BLOCK == (map->width * BLOCK) - BLOCK * 2)
+		if (mob->x_witch[witch_num] == (map->width * BLOCK) - BLOCK)
+		{
 			map->witch_move_left[witch_num] = true;
+			
+			if ((mob->y_witch[witch_num] != BLOCK * 4) && (mob->y_witch[witch_num] != map->height * BLOCK - BLOCK * 8))  // changing y while flying
+				(map->mob.type[0])[witch_num]->instances[0].y += BLOCK;
+			else
+				(map->mob.type[0])[witch_num]->instances[0].y -= BLOCK * 3;
+		}
 	}
 }
 
@@ -161,7 +157,7 @@ void bat_animation(t_map *map, size_t x_char, size_t y_char)
 
 	for (int bat_num = 0; bat_num < BATS_COUNT; bat_num++)
 	{	
-		if (time > 10)
+		if (time > 3)
 		{	
 			for (int bat_num = 0; bat_num < BATS_COUNT; bat_num++)
 			{

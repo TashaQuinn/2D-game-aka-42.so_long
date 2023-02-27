@@ -3,8 +3,10 @@
 bool image_to_window(t_map *map, int y_height, int x_width)
 {
     //return (free_array(map->img, "Image display has failed!", map), false);
-	static int i = 0;
 
+	static int i = 0; // used for iterating the mobs
+
+	/*-----------------------------------------------------------------------------------------------------------------------------------------*/
 	if (map->map[y_height][x_width] == '1')
 	{
 		if (x_width == 0 || y_height == 0 || y_height == map->height - 1 || x_width == map->width - 1) // boarders (/walls)
@@ -12,14 +14,14 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 			if ((mlx_image_to_window(map->mlx, map->img[WALL], x_width * BLOCK, y_height * BLOCK)) == -1)
 				return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
 		}
-		else // loading tiles which are inside the boarders
+		else // loading tiles that are inside the boarders
 		{
 			if (map->tiles % 2 == 0) // only for even tiles cuz the size of the cloud is two blocks, but we can load it only on one block
 			{
 				if (mlx_image_to_window(map->mlx, map->tile.tile_img[map->tiles], x_width * BLOCK, y_height * BLOCK) == -1)
 					return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
 				
-				mlx_set_instance_depth(&map->tile.tile_img[map->tiles]->instances[0], -400); // avoid blocking main char (who is at 0 depth)
+				mlx_set_instance_depth(&map->tile.tile_img[map->tiles]->instances[0], -400); // avoid blocking main char
 			}
 			else // thus we hide the second block
 			{
@@ -40,13 +42,13 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 			map->tiles++;
 		}
 	}
-
+	/*-----------------------------------------------------------------------------------------------------------------------------------------*/
 	else if (map->map[y_height][x_width] == 'P')
 	{
 		if ((mlx_image_to_window(map->mlx, map->img[CHAR], x_width * BLOCK, y_height * BLOCK)) == -1)
             return (ft_putendl_fd("Image display has failed!", STDOUT_FILENO), false);
     }
-
+	/*-----------------------------------------------------------------------------------------------------------------------------------------*/
 	else if (map->map[y_height][x_width] == 'E') 
 	{
 		if ((mlx_image_to_window(map->mlx, map->img[DOOR], x_width * BLOCK, y_height * BLOCK)) == -1)
@@ -55,7 +57,7 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 		map->door.x_door_start = (map->img[DOOR]->instances[0].x / BLOCK);
 		map->door.y_door_end = (map->img[DOOR]->instances[0].y / BLOCK);
     }
-
+	/*-----------------------------------------------------------------------------------------------------------------------------------------*/
 	else if (map->map[y_height][x_width] == 'C') 
 	{
 		if(((mlx_image_to_window(map->mlx, map->star.star_img[map->stars], x_width * BLOCK, y_height * BLOCK)) == -1))
@@ -68,10 +70,11 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 		map->star.x_star_end[map->stars] = ((map->star.type[0])[map->stars]->instances[0].x + HALF_BLOCK);
 		map->star.y_star_end[map->stars] = ((map->star.type[0])[map->stars]->instances[0].y + HALF_BLOCK);
 		map->star_lit_up[map->stars] = false;
+		mlx_set_instance_depth(&map->star.star_img[map->stars]->instances[0], -600); // hiding the stars that are not lit up
 
 		map->stars++;
     }
-	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------*/
 	else if (map->map[y_height][x_width] == 'X') 
     {
 		if (i == 0) // the which is 0 num
@@ -83,7 +86,7 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 
 			map->mobs = -1;
 		}
-		else // we also need bats which are 0 and 1 num
+		else // we also need bats that are 0 and 1 nums
 		{
 			if ((mlx_image_to_window(map->mlx, map->mob.bat_img[map->mobs], x_width * BLOCK, y_height * BLOCK)) == -1)
 			{
@@ -94,7 +97,8 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 		i++;
 	    map->mobs++;
     }
-
+	/*-----------------------------------------------------------------------------------------------------------------------------------------*/
+	
 	return true;
 }
 

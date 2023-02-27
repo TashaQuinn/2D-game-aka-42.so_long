@@ -17,13 +17,19 @@ t_map *init_map(char *line)
 	map->mlx = mlx_init(map->width * BLOCK, map->height * BLOCK, "Some Starry Night", true);
 	map->stars = 0;
 	map->lit_up_stars_count = 0;
-	map->mobs = 0;
+	map->mobs = 0; 
 	map->char_dir = CHAR_R_FLY1;
 	map->lives = 3;
 	map->tiles = 0;
-	map->accel = ACCEL;
-	map->bat_move_left[0] = false;
-	map->bat_move_left[1] = true;
+	map->jump_height = JUMP_HEIGHT;
+	for (int bat_num = 0; bat_num < BATS_COUNT; bat_num++)
+	{
+		if (bat_num % 2 == 0)
+			map->bat_move_left[bat_num] = false;
+		else
+			map->bat_move_left[bat_num] = true;
+	}
+	
 	//map->steps = 0;
 
 	free(line);
