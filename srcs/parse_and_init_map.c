@@ -29,8 +29,6 @@ t_map *init_map(char *line)
 		else
 			map->bat_move_left[bat_num] = true;
 	}
-	
-	//map->steps = 0;
 
 	free(line);
 

@@ -86,7 +86,7 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 
 			map->mobs = -1;
 		}
-		else // we also need bats that are 0 and 1 nums
+		else // bats are 0 and 1 nums
 		{
 			if ((mlx_image_to_window(map->mlx, map->mob.bat_img[map->mobs], x_width * BLOCK, y_height * BLOCK)) == -1)
 			{
@@ -104,8 +104,6 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 
 bool display_sprites_and_steps(t_map *map)
 {
-	//char *count_step = ft_itoa(map->steps); //
-
 	int y_height = -1;
 	while (map->map[++y_height])
 	{
@@ -122,11 +120,7 @@ bool display_sprites_and_steps(t_map *map)
     mlx_set_instance_depth(map->img[BG]->instances, -500); // putting it faaar away to avoid blocking the sprites
 
 	//mlx_string_put(map->mlx, map->win, 10, 10, 0xff00, "Steps:");
-	//mlx_string_put(map->mlx, map->win, 75, 10, 0xff00, count_step);
-    //display_string(data2, STRMOVE, 10, "movement: ");
 	//display_string(data2, STRLIFE, 200, "lives: ");
-
-	//free(count_step);
 
 	return true;
 }

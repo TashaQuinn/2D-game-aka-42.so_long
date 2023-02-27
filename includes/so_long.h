@@ -113,21 +113,24 @@ typedef struct s_map
 	char			**map;
 	int				width;
 	int				height;
-	//int			steps;
 	xpm_t			*xpm[IMG_COUNT];
 	mlx_image_t		*img[IMG_COUNT];
+
 	// door
 	t_door			door; // struct for storing door's coords (it is the Moon actually)
+
 	// tiles (aka clouds)
 	t_tile			tile; // struct for storing clouds' images
 	int 			tiles; // nbr of tiles
 	bool			tile_hidden[TILE_COUNT];
 	size_t			tile_mov[TILE_COUNT]; // movement for every cloudiiieee
+
 	// char
 	size_t			char_dir;
 	int				lives;
 	float			jump_height;
 	bool			jumping;
+
 	// mobs
 	int 			mobs; // nbr of mobs, used while parsing the map
 	t_mob			mob; // struct for storing moves' images and mobs' coords
@@ -135,12 +138,13 @@ typedef struct s_map
 	bool			bat_move_left[BATS_COUNT];
 	size_t			witch_dir[WITCH_COUNT]; // movement dir for every witch
 	size_t			bat_dir[BATS_COUNT]; // movement dir for every bat
+
 	// stars
 	int				stars; // nbr of stars
 	t_star			star; // struct for storing moves' images and stars' coords
 	size_t			star_mov[STAR_COUNT]; // movement for every star
 	int				lit_up_stars_count;
-	bool			star_lit_up[STAR_COUNT]; // has the star been lit up or not
+	bool			star_lit_up[STAR_COUNT];
 
 } t_map;
 
@@ -153,7 +157,7 @@ bool 	convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img);
 bool	display_sprites_and_steps(t_map *map);
 
 // hook? HOOK!
-void 	hook(void *map); // loop hook for everything what is moving;)
+void 	hook(void *map); // loop hook for everything that is moving;)
 void 	end_game();
 
 // mob animation and interactions

@@ -71,7 +71,7 @@ void char_animation(t_map *map, size_t x_char, size_t y_char)
 		move_char_left(map);
 	else if (mlx_is_key_down(map->mlx, MLX_KEY_D) && (map->map[y_char][x_char + 2] != '1'))
 		move_char_right(map);
-	else if (mlx_is_key_down(map->mlx, MLX_KEY_W)) //&& (map->map[y_char][x_char + 1] != '1'))
+	else if (mlx_is_key_down(map->mlx, MLX_KEY_W))
 		move_char_up(map);
 	else if ((mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE) )
 		|| (mlx_is_key_down(map->mlx, MLX_KEY_Q)))

@@ -116,7 +116,7 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 	for (int i = 0; i < TILE_COUNT; i++)
 		map->tile.tile_img[i] = mlx_texture_to_image(map->mlx, &xpm[TILE1]->texture);
 
-	img[CHAR] = img[CHAR_R_FLY1]; //
+	img[CHAR] = img[CHAR_R_FLY1];
 	map->mob.type[0] = map->mob.witch_img;
 	map->mob.type[1] = map->mob.bat_img;
 	map->tile.type[0] = map->tile.tile_img;
