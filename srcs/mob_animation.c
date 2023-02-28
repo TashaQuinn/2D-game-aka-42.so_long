@@ -122,7 +122,7 @@ static void witch_moves(t_map *map, t_mob *mob, size_t witch_num)
 		{
 			map->witch_move_left[witch_num] = false;
 
-			if ((mob->y_witch[witch_num] != BLOCK * 4) && (mob->y_witch[witch_num] != map->height * BLOCK - BLOCK * 8)) // changing y while flying
+			if ((mob->y_witch[witch_num] != BLOCK * 4) && (mob->y_witch[witch_num] != map->height * BLOCK - BLOCK * 8)) // changing y-axis while flying
 				(map->mob.type[0])[witch_num]->instances[0].y += BLOCK;
 			else
 				(map->mob.type[0])[witch_num]->instances[0].y -= BLOCK * 2;

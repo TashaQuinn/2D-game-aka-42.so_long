@@ -19,7 +19,7 @@ t_map *init_map(char *line)
 	map->lit_up_stars_count = 0;
 	map->mobs = 0; 
 	map->char_dir = CHAR_R_FLY1;
-	map->lives = 3;
+	map->lives = LIVES;
 	map->tiles = 0;
 	map->jump_height = JUMP_HEIGHT;
 	for (int bat_num = 0; bat_num < BATS_COUNT; bat_num++)

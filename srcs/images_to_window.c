@@ -102,7 +102,7 @@ bool image_to_window(t_map *map, int y_height, int x_width)
 	return true;
 }
 
-bool display_sprites_and_steps(t_map *map)
+bool display_sprites_and_lives_str(t_map *map)
 {
 	int y_height = -1;
 	while (map->map[++y_height])
@@ -119,15 +119,9 @@ bool display_sprites_and_steps(t_map *map)
 
     mlx_set_instance_depth(map->img[BG]->instances, -500); // putting it faaar away to avoid blocking the sprites
 
-	//mlx_string_put(map->mlx, map->win, 10, 10, 0xff00, "Steps:");
-	//display_string(data2, STRLIFE, 200, "lives: ");
+	mlx_put_string(map->mlx, "Lives:", BLOCK, HALF_BLOCK / 2);
 
 	return true;
 }
 
-void end_game()
-{	
-	printf("Game over!\n");
-	exit(0);
-}
 // mlx_clear_window(map->map, map->win);

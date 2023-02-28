@@ -75,5 +75,5 @@ void char_animation(t_map *map, size_t x_char, size_t y_char)
 		move_char_up(map);
 	else if ((mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE) )
 		|| (mlx_is_key_down(map->mlx, MLX_KEY_Q)))
-		end_game();
+		exit(0);
 }

@@ -20,6 +20,10 @@ bool load_textures(xpm_t **xpm)
 	if (!xpm[TILE2])
 		return (ft_putendl_fd("cloud_down.xpm42 was not found!", STDOUT_FILENO), false);
 
+	xpm[HEART] = mlx_load_xpm42("textures/heart.xpm42");
+	if (!xpm[HEART])
+		return (ft_putendl_fd("heart.xpm42 was not found!", STDOUT_FILENO), false);
+
 	xpm[CHAR_L_FLY1] = mlx_load_xpm42("textures/fairy_l_fly1.xpm42");
 	if (!xpm[CHAR_L_FLY1])
 		return (ft_putendl_fd("fairy_l_fly1.xpm42 was not found!", STDOUT_FILENO), false);
@@ -104,6 +108,9 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 		|| !img[DOOR])
 		return (ft_putendl_fd("Image to texture convertion has failed!", STDOUT_FILENO), false);
 	
+	for (int i = 0; i < LIVES; i++)
+		map->heart_img[i] = mlx_texture_to_image(map->mlx, &xpm[HEART]->texture);
+
 	for (int i = 0; i < WITCH_COUNT; i++)
 		map->mob.witch_img[i] = mlx_texture_to_image(map->mlx, &xpm[WITCH_L_DOWN]->texture);
 	

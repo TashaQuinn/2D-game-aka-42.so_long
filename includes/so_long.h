@@ -24,6 +24,7 @@
 
 # define BLOCK				48 // 48x28
 # define HALF_BLOCK			24
+# define LIVES				3
 # define CHAR_SPEED			5 // speed up or slow down char's movements
 # define MOB_SPEED			1 // speed up or slow down mobs' movements
 # define STAR_COUNT 		7 // needed for loading images
@@ -40,6 +41,7 @@ typedef enum s_img
 	WALL,
 	TILE1,
 	TILE2,
+	HEART,
 	CHAR, // changes its image according to the char's mov dir
 	CHAR_L_FLY1,
 	CHAR_R_FLY1,
@@ -115,6 +117,7 @@ typedef struct s_map
 	int				height;
 	xpm_t			*xpm[IMG_COUNT];
 	mlx_image_t		*img[IMG_COUNT];
+	mlx_image_t		*heart_img[HEART];
 
 	// door
 	t_door			door; // struct for storing door's coords (it is the Moon actually)
@@ -154,11 +157,11 @@ char	*get_line(char **av);
 t_map	*init_map(char *line);
 bool 	load_textures(xpm_t **xpm);
 bool 	convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img);
-bool	display_sprites_and_steps(t_map *map);
+bool	display_sprites_and_lives_str(t_map *map);
 
 // hook? HOOK!
 void 	hook(void *map); // loop hook for everything that is moving;)
-void 	end_game();
+void 	end_game(t_map *map);
 
 // mob animation and interactions
 void 	mob_animation(t_map *map, size_t x_char, size_t y_char); /* iterating 
@@ -169,10 +172,10 @@ void 	tile_animation(t_map *map); // make clouds move up and down to simulate ho
 void 	hide_tile(t_map *map, size_t x_char, size_t y_char);
 
 // char animation and interactions
-void 	jump(t_map *map, size_t x_char, size_t y_char);
 void 	char_animation(t_map *map, size_t x_char, size_t y_char); // key hook for a char
 void 	char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char, 
 		size_t y_char, t_img new_image);
+void 	jump(t_map *map, size_t x_char, size_t y_char);
 void 	lit_up_stars(t_map *map, size_t x_char, size_t y_char);
 
 // star animation and interactions

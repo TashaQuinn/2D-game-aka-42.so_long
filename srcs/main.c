@@ -4,8 +4,8 @@ bool image_processing(t_map *map) {
 
 	if(!(load_textures(map->xpm)) // mlx_load_xpm42
 		|| !(convert_to_image(map, map->xpm, map->img)) // mlx_texture_to_image
-		|| !(display_sprites_and_steps(map))) /* parse 1PECX chars + assign sprites' 
-			coords (image_to_window), display sprites */
+		|| !(display_sprites_and_lives_str(map))) /* parse 1PECX chars + assign sprites' 
+			coords (image_to_window), display sprites ans "lives: " string */
 		return false;
 
 	return true;
