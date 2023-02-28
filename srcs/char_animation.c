@@ -31,17 +31,21 @@ void char_delete_and_put_images(t_map *map, xpm_t **xpm, size_t x_char, size_t y
 	mlx_image_to_window(map->mlx, map->img[CHAR], x_char, y_char);
 }
 
-void move_char_up(t_map *map)
+void move_char_up_or_idle(t_map *map)
 {
 	int current_char_dir = map->char_dir; // for correcting the dir while flying
 
 	if (current_char_dir == CHAR_R_FLY1)
 		map->char_dir = CHAR_R_FLY2;
 	else if (current_char_dir == CHAR_R_FLY2)
+		map->char_dir = CHAR_R_FLY3;
+	else if (current_char_dir == CHAR_R_FLY3)
 		map->char_dir = CHAR_R_FLY1;
 	else if (current_char_dir == CHAR_L_FLY1)
 		map->char_dir = CHAR_L_FLY2;
 	else if (current_char_dir == CHAR_L_FLY2)
+		map->char_dir = CHAR_L_FLY3;
+	else
 		map->char_dir = CHAR_L_FLY1;
 }
 
@@ -49,6 +53,8 @@ void move_char_left(t_map *map)
 {
 	if (map->char_dir == CHAR_L_FLY1)
 		map->char_dir = CHAR_L_FLY2;
+	else if (map->char_dir == CHAR_L_FLY2)
+		map->char_dir = CHAR_L_FLY3;
 	else
 		map->char_dir = CHAR_L_FLY1;
 
@@ -59,6 +65,8 @@ void move_char_right(t_map *map)
 {
 	if (map->char_dir == CHAR_R_FLY1)
 		map->char_dir = CHAR_R_FLY2;
+	else if (map->char_dir == CHAR_R_FLY2)
+		map->char_dir = CHAR_R_FLY3;
 	else
 		map->char_dir = CHAR_R_FLY1;
 
@@ -72,8 +80,10 @@ void char_animation(t_map *map, size_t x_char, size_t y_char)
 	else if (mlx_is_key_down(map->mlx, MLX_KEY_D) && (map->map[y_char][x_char + 2] != '1'))
 		move_char_right(map);
 	else if (mlx_is_key_down(map->mlx, MLX_KEY_W))
-		move_char_up(map);
-	else if ((mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE) )
+		move_char_up_or_idle(map);
+	else if ((mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
 		|| (mlx_is_key_down(map->mlx, MLX_KEY_Q)))
 		exit(0);
+	else
+		move_char_up_or_idle(map);
 }

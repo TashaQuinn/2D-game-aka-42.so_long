@@ -26,7 +26,7 @@
 # define HALF_BLOCK			24
 # define LIVES				3
 # define CHAR_SPEED			5 // speed up or slow down char's movements
-# define MOB_SPEED			1 // speed up or slow down mobs' movements
+# define MOB_SPEED			3 // speed up or slow down mobs' movements
 # define STAR_COUNT 		7 // needed for loading images
 # define WITCH_COUNT		1 // needed for loading images
 # define BATS_COUNT 		2 // needed for loading images
@@ -42,11 +42,14 @@ typedef enum s_img
 	TILE1,
 	TILE2,
 	HEART,
+	GAME_OVER,
 	CHAR, // changes its image according to the char's mov dir
 	CHAR_L_FLY1,
 	CHAR_R_FLY1,
 	CHAR_L_FLY2,
 	CHAR_R_FLY2,
+	CHAR_L_FLY3,
+	CHAR_R_FLY3,
 	DOOR,
 	STAR_MARK1,
 	STAR_MARK2,
@@ -150,7 +153,6 @@ typedef struct s_map
 	bool			star_lit_up[STAR_COUNT];
 
 } t_map;
-
 
 t_map 	*map_parsing(int argc, char **argv);
 char	*get_line(char **av);

@@ -23,6 +23,10 @@ bool load_textures(xpm_t **xpm)
 	xpm[HEART] = mlx_load_xpm42("textures/heart.xpm42");
 	if (!xpm[HEART])
 		return (ft_putendl_fd("heart.xpm42 was not found!", STDOUT_FILENO), false);
+	
+	xpm[GAME_OVER] = mlx_load_xpm42("textures/game_over.xpm42");
+	if (!xpm[GAME_OVER])
+		return (ft_putendl_fd("game_over.xpm42 was not found!", STDOUT_FILENO), false);
 
 	xpm[CHAR_L_FLY1] = mlx_load_xpm42("textures/fairy_l_fly1.xpm42");
 	if (!xpm[CHAR_L_FLY1])
@@ -39,6 +43,14 @@ bool load_textures(xpm_t **xpm)
 	xpm[CHAR_R_FLY2] = mlx_load_xpm42("textures/fairy_r_fly2.xpm42");
 	if (!xpm[CHAR_R_FLY2])
 		return (ft_putendl_fd("fairy_r_fly2.xpm42 was not found!", STDOUT_FILENO), false);
+
+	xpm[CHAR_L_FLY3] = mlx_load_xpm42("textures/fairy_l_fly3.xpm42");
+	if (!xpm[CHAR_L_FLY3])
+		return (ft_putendl_fd("fairy_l_fly3.xpm42 was not found!", STDOUT_FILENO), false);
+
+	xpm[CHAR_R_FLY3] = mlx_load_xpm42("textures/fairy_r_fly3.xpm42");
+	if (!xpm[CHAR_R_FLY3])
+		return (ft_putendl_fd("fairy_r_fly3.xpm42 was not found!", STDOUT_FILENO), false);
 
 	xpm[DOOR] = mlx_load_xpm42("textures/moon_door.xpm42");
 	if (!xpm[DOOR])
@@ -101,13 +113,15 @@ bool convert_to_image(t_map *map, xpm_t **xpm, mlx_image_t **img) // converting 
 	img[WALL] = mlx_texture_to_image(map->mlx, &xpm[WALL]->texture);
 	img[CHAR_R_FLY1] = mlx_texture_to_image(map->mlx, &xpm[CHAR_R_FLY1]->texture);
 	img[DOOR] = mlx_texture_to_image(map->mlx, &xpm[DOOR]->texture);
+	img[GAME_OVER] = mlx_texture_to_image(map->mlx, &xpm[GAME_OVER]->texture);
 	
 	if (!img[BG] 
 		|| !img[WALL] 
 		|| !img[CHAR_R_FLY1]  
-		|| !img[DOOR])
+		|| !img[DOOR]
+		|| !img[GAME_OVER])
 		return (ft_putendl_fd("Image to texture convertion has failed!", STDOUT_FILENO), false);
-	
+
 	for (int i = 0; i < LIVES; i++)
 		map->heart_img[i] = mlx_texture_to_image(map->mlx, &xpm[HEART]->texture);
 

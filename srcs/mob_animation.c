@@ -23,7 +23,6 @@ void check_damage(t_map *map, size_t x_char, size_t y_char, size_t type, size_t 
 	if (x_char == x_mob && y_char == y_mob)
 	{
 		map->lives--;
-		printf("%d\n", map->lives); // debug
 	}
 }
 
@@ -45,12 +44,12 @@ static void bat_moves(t_map *map, t_mob *mob, size_t bat_num)
 			map->bat_dir[bat_num] = BAT_L_FLY1;
 		
 		if (random == 0)
-			(map->mob.type[1])[bat_num]->instances[0].x -= HALF_BLOCK;
+			(map->mob.type[1])[bat_num]->instances[0].x -= HALF_BLOCK / MOB_SPEED;
 		else 
-			(map->mob.type[1])[bat_num]->instances[0].y += HALF_BLOCK;
+			(map->mob.type[1])[bat_num]->instances[0].y += HALF_BLOCK / MOB_SPEED;
 	}
 	
-	if ((random == 2 && mob->x_bat[bat_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 3)
+	else if ((random == 2 && mob->x_bat[bat_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 3)
 		|| (random == 3 && mob->y_bat[bat_num] + BLOCK >= map->height - map->height + BLOCK * 5))
 	{
 		if (map->bat_dir[bat_num] == BAT_R_FLY1)
@@ -59,52 +58,22 @@ static void bat_moves(t_map *map, t_mob *mob, size_t bat_num)
 			map->bat_dir[bat_num] = BAT_R_FLY1;
 		
 		if (random == 2)
-			(map->mob.type[1])[bat_num]->instances[0].x += HALF_BLOCK;
+			(map->mob.type[1])[bat_num]->instances[0].x += HALF_BLOCK / MOB_SPEED;
 		else 
-			(map->mob.type[1])[bat_num]->instances[0].y -= HALF_BLOCK;
+			(map->mob.type[1])[bat_num]->instances[0].y -= HALF_BLOCK / MOB_SPEED;
 	}
 
-	/*if ((mob->x_bat[bat_num] - BLOCK >= 0 + BLOCK) 
-		&& (mob->y_bat[bat_num] - BLOCK <= map->height * BLOCK - BLOCK) && (map->bat_move_left[bat_num] == true))
-	// there is no wall left down 
+	else // movements when "idle" (when the random number doesn't fit movement criteria)
 	{
 		if (map->bat_dir[bat_num] == BAT_L_FLY1)
 			map->bat_dir[bat_num] = BAT_L_FLY2;
-		else
+		else if (map->bat_dir[bat_num] == BAT_L_FLY2)
 			map->bat_dir[bat_num] = BAT_L_FLY1;
-
-		(map->mob.type[1])[bat_num]->instances[0].x -= BLOCK;
-		(map->mob.type[1])[bat_num]->instances[0].y += BLOCK;
-
-		if ((mob->x_bat[bat_num] - BLOCK == 0 + BLOCK) || (mob->y_bat[bat_num] - BLOCK == map->height * BLOCK - BLOCK * 4))
-		{
-			//if (map->bat_move_left[bat_num] == true)
-				map->bat_move_left[bat_num] = false;
-			//else
-				//map->bat_move_left[bat_num] = true;
-		}
-	}
-	
-	else if ((mob->x_bat[bat_num] + BLOCK <= (map->width * BLOCK) - BLOCK * 2) 
-		&& ((mob->y_bat[bat_num] + BLOCK >= map->height - map->height + BLOCK)) && (map->bat_move_left[bat_num] == false))
-	// there is no wall right up
-	{	
-		if (map->bat_dir[bat_num] == BAT_R_FLY1)
+		else if (map->bat_dir[bat_num] == BAT_R_FLY1)
 			map->bat_dir[bat_num] = BAT_R_FLY2;
 		else
 			map->bat_dir[bat_num] = BAT_R_FLY1;
-		
-		(map->mob.type[1])[bat_num]->instances[0].x += BLOCK;
-		(map->mob.type[1])[bat_num]->instances[0].y -= BLOCK;
-
-		if ((mob->x_bat[bat_num] + BLOCK == (map->width * BLOCK) - BLOCK * 2) || (mob->y_bat[bat_num] + BLOCK == map->height - map->height + BLOCK))
-		{
-			//if (map->bat_move_left[bat_num] == true)
-				//map->bat_move_left[bat_num] = false;
-			//else
-				map->bat_move_left[bat_num] = true;
-		}
-	}*/
+	}
 }
 
 static void witch_moves(t_map *map, t_mob *mob, size_t witch_num)
